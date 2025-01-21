@@ -1,1 +1,41 @@
+from itertools import permutations
 
+# Travelling Salesman Problem Implementation
+def tsp_bruteforce(graph):
+    nodes = list(graph.keys())
+    shortest_path = None
+    min_cost = float('inf')
+
+    for perm in permutations(nodes):
+        cost = sum(graph[perm[i]][perm[i + 1]] for i in range(len(perm) - 1))
+        cost += graph[perm[-1]][perm[0]]  # Return to the starting point
+        if cost < min_cost:
+            min_cost = cost
+            shortest_path = perm
+
+    return shortest_path, min_cost
+
+# Function to input the graph
+def input_graph():
+    graph = {}
+    n = int(input("Enter the number of nodes: "))
+    print("Enter the nodes (separated by spaces):")
+    nodes = input().split()
+
+    for node in nodes:
+        graph[node] = {}
+
+    print("Enter the distances between nodes:")
+    for i in range(n):
+        for j in range(i + 1, n):
+            print(f"Distance between {nodes[i]} and {nodes[j]}: ", end="")
+            distance = int(input())
+            graph[nodes[i]][nodes[j]] = distance
+            graph[nodes[j]][nodes[i]] = distance
+
+    return graph
+
+# Main program
+graph = input_graph()
+path, cost = tsp_bruteforce(graph)
+print("Shortest Path:", path, "with Cost:", cost)
