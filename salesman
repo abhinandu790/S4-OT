@@ -1,6 +1,5 @@
 from itertools import permutations
 
-# Travelling Salesman Problem Implementation
 def tsp_bruteforce(graph):
     nodes = list(graph.keys())
     shortest_path = None
